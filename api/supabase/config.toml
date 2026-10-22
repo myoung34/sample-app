@@ -1,0 +1,2 @@
+# Only `supabase db push --db-url` runs against this; no local stack.
+project_id = "sample-app"

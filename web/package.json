@@ -1,0 +1,14 @@
+{
+  "name": "sample-web",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3008",
+    "build": "next build",
+    "start": "next start --port 3008"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}
