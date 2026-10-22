@@ -1,13 +1,15 @@
 name: Build
 
-# Builds the API and web images on every PR, and on main pushes them to GHCR
-# with the monorepo's immutable tags: the 7-char commit and rc-NNNNNNN (the
-# run number), which Kargo's Warehouse promotes. No env-* or latest: Kargo
-# pins each environment's tag in meanwhile/argocd instead.
+# Builds the API and web images on every PR. Only main (a push or a manual
+# run) pushes them to GHCR, with the monorepo's immutable tags: the 7-char
+# commit and rc-NNNNNNN (the run number), which Kargo's Warehouse promotes. No
+# env-* or latest: Kargo pins each environment's tag in meanwhile/argocd.
 on:
   pull_request:
   push:
     branches: [main]
+  # Rebuild main by hand: a new rc-* tag for Kargo without a code change.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,7 +40,7 @@ jobs:
 
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
-      - if: github.event_name == 'push'
+      - if: github.ref == 'refs/heads/main'
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
@@ -49,7 +51,7 @@ jobs:
         with:
           context: ${{ matrix.image }}
           platforms: linux/arm64
-          push: ${{ github.event_name == 'push' }}
+          push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ steps.tags.outputs.tags }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
           build-args: |
