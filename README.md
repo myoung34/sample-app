@@ -40,6 +40,6 @@ cat api/supabase/migrations/*.sql | docker exec -i pg psql -U postgres
 Then open `http://localhost:3008`. Run the e2e against any environment:
 
 ```bash
-(cd e2e && npm ci && BASE_URL=http://localhost:3008 EXPECTED_ENV=local \
+(cd e2e && npm ci && npx playwright install chromium && BASE_URL=http://localhost:3008 EXPECTED_ENV=local \
   EXPECTED_RELEASE=local npx playwright test)
 ```
