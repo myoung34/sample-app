@@ -1,10 +1,9 @@
 name: Build
 
-# Builds the API and web images on every PR; only main (push or a manual run)
-# pushes them to GHCR
-# with the monorepo's immutable tags: the 7-char commit and rc-NNNNNNN (the
-# run number), which Kargo's Warehouse promotes. No env-* or latest: Kargo
-# pins each environment's tag in meanwhile/argocd instead.
+# Builds the API and web images on every PR. Only main (a push or a manual
+# run) pushes them to GHCR, with the monorepo's immutable tags: the 7-char
+# commit and rc-NNNNNNN (the run number), which Kargo's Warehouse promotes. No
+# env-* or latest: Kargo pins each environment's tag in meanwhile/argocd.
 on:
   pull_request:
   push:
